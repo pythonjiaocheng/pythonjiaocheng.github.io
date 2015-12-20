@@ -10,7 +10,7 @@ tags: ["Dive Into Python3"]
 
 ##Diving In
 
-`Iterator`s are the “secret sauce” of Python 3. They’re everywhere, underlying everything, always just out of sight. Comprehensions are just a simple form of iterators. Generators are just a simple form of iterators. A function that yields values is a nice, compact way of building an iterator without building an iterator. Let me show you what I mean by that.    
+`Iterator`s are the “secret sauce(n. 酱油；沙司；调味汁)” of Python 3. They’re everywhere, underlying everything, always just out of sight. Comprehensions are just a simple form of iterators. Generators are just a simple form of iterators. A function that yields values is a nice, compact way of building an iterator without building an iterator. Let me show you what I mean by that.    
 Remember the Fibonacci generator? Here it is as a built-from-scratch iterator:     
 
 	class Fib:
@@ -32,10 +32,5 @@ Remember the Fibonacci generator? Here it is as a built-from-scratch iterator:
 		return fib
 
 
-Let’s take that one line at a time.
-
-	class Fib:
-
-	class? What’s a class?
 
 
