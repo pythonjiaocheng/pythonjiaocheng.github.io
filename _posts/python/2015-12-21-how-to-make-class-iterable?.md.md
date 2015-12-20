@@ -102,16 +102,16 @@ python3的版本:
 
 This is easier to write using a generator:            
 
-def counter(low, high):
-    current = low
-    while current <= high:
-        yield current
-        current += 1
 
-for c in counter(3, 8):
-    print c
+	def counter(low, high):
+	    current = low
+	    while current <= high:
+		yield current
+		current += 1
 
-The printed output will be the same. Under the hood, the generator object supports the iterator protocol and does something roughly similar to the class Counter.
+	for c in counter(3, 8):
+	    print(c)
 
-David Mertz's article, Iterators and Simple Generators, is a pretty good introduction.
-shareimprove this answer
+
+
+The printed output will be the same. Under the hood, the generator object supports the iterator protocol and does something roughly similar to the class `Counter`.   
