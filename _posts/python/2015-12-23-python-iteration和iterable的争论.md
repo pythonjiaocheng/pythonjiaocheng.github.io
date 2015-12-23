@@ -7,25 +7,15 @@ mydate : 2015-12-23-23-38-41
 description: "python iteration和iterable的争论"
 tags: [python]
 ---
- 38
-down vote
-	
+In natural language,   
 
-The above answers are great, but as most of what I've seen, don't stress the distinction enough for people like me.
+> iteration is the process of taking one element at a time in a row of elements.   
 
-Also, people tend to get "too Pythonic" by putting definitions like "X is an object that has __foo__() method" before. Such definitions are correct--they are based on duck-typing philosophy, but the focus on methods tends to get between when trying to understand the concept in its simplicity.
+In Python,   
 
-So I add my version.
+> iterable is an object that is, well, iterable, which simply put, means that it can be used in iteration, e.g. with a `for` loop. How? By using `iterator`.     
 
-In natural language,
-
-    iteration is the process of taking one element at a time in a row of elements.
-
-In Python,
-
-    iterable is an object that is, well, iterable, which simply put, means that it can be used in iteration, e.g. with a for loop. How? By using iterator. I'll explain below.
-
-    ... while iterator is an object that defines how to actually do the iteration--specifically what is the next element. That's why it must have next() method. Iterator is not iterable, though.
+... while iterator is an object that defines how to actually do the iteration--specifically what is the next element. That's why it must have next() method. Iterator is not iterable, though.
 
 So what does Python interpreter think when it sees for x in obj: statement?
 
