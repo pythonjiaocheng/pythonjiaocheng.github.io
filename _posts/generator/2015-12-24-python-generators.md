@@ -105,40 +105,38 @@ This also means that we can use the same syntax we have been using for list comp
 
 Keep in mind that generators are a special type of iterator, and that containers like `list` and `set` are also iterables. The uniform way in which all of these are handled, adds greatly to the simplification of code.                            
 
-Improved Performance
+##Improved Performance
 
-The performance improvement from the use of generators is the result of the lazy (on demand) generation of values, which translates to lower memory usage. Furthermore, we do not need to wait until all the elements have been generated before we start to use them. This is similar to the benefits provided by iterators, but the generator makes building iterators easy.
+The performance improvement from the use of generators is the result of the lazy (on demand) generation of values, which translates to lower memory usage. Furthermore, we do not need to wait until all the elements have been generated before we start to use them. This is similar to the benefits provided by iterators, but the generator makes building iterators easy.                                
 
-This can be illustrated by comparing the range and xrange built-ins of Python 2.x.
+This can be illustrated by comparing the range and xrange built-ins of Python 2.x.                          
 
-Both range and xrange represent a range of numbers, and have the same function signature, but range returns a list while xrange returns a generator (at least in concept; the implementation may differ).
+Both `range` and `xrange` represent a range of numbers, and have the same function signature, but `range` returns a list while `xrange` returns a generator (at least in concept; the implementation may differ).                                                     
 
-Say, we had to compute the sum of the first n, say 1,000,000, non-negative numbers.
+Say, we had to compute the sum of the first n, say 1,000,000, non-negative numbers.                                 
 
-Toggle line numbers
 
-   1 # Note: Python 2.x only
-   2 # using a non-generator
-   3 sum_of_first_n = sum(range(1000000))
-   4 
-   5 # using a generator
-   6 sum_of_first_n = sum(xrange(1000000))
+	# Note: Python 2.x only
+	#using a non-generator
+	sum_of_first_n = sum(range(1000000))
 
-Note that both lines are identical in form, but the one using range is much more expensive.
+	# using a generator
+	sum_of_first_n = sum(xrange(100000))
 
-When we use range we build a 1,000,000 element list in memory and then find its sum. This is a waste, considering that we use these 1,000,000 elements just to compute the sum.
+Note that both lines are identical in form, but the one using `range` is much more expensive.                                  
 
-This waste becomes more pronounced as the number of elements (our n) becomes larger, the size of our elements become larger, or both.
+When we use `range` we build a 1,000,000 element list in memory and then find its `sum`. This is a waste, considering that we use these 1,000,000 elements just to compute the sum.    
 
-On the other hand, when we use xrange, we do not incur the cost of building a 1,000,000 element list in memory. The generator created by xrange will generate each number, which sum will consume to accumulate the sum.
+This waste becomes more pronounced as the number of elements (our `n`) becomes larger, the size of our elements become larger, or both.     
 
-In the case of the "range" function, using it as an iterable is the dominant use-case, and this is reflected in Python 3.x, which makes the range built-in return a generator instead of a list.
+On the other hand, when we use `xrange`, we do not incur the cost of building a 1,000,000 element list in memory. The generator created by `xrange` will generate each number, which sum will consume to accumulate the sum.     
 
-Note: a generator will provide performance benefits only if we do not intend to use that set of generated values more than once.
+In the case of the "`range`" function, using it as an iterable is the dominant use-case, and this is reflected in Python 3.x, which makes the range built-in return a generator instead of a list.                                 
 
-Consider the following example:
+Note: **a generator will provide performance benefits only if we do not intend to use that set of generated values more than once**.                                   
 
-Toggle line numbers
+Consider the following example:    
+
 
    1 # Note: Python 2.x only
    2 s = sum(xrange(1000000))
