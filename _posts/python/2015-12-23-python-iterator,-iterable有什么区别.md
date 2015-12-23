@@ -9,15 +9,9 @@ tags: [python]
 ---
 An ITERABLE is:   
 
-- anything that can be looped over (i.e. you can loop over a string or file)    
-- anything that can appear on the right-side of a for-loop:    
-
-	for x in iterable: ...   
-    
-- anything you can call with `iter()` have it return an ITERATOR:     
-
-	iter(obj)
-
+- anything that can be looped over (i.e. you can loop over a string or file)      
+- anything that can appear on the right-side of a for-loop:`for x in iterable: ...`       
+- anything you can call with `iter()` have it return an ITERATOR:`iter(obj)`    
 - an object that defines `__iter__` that returns a fresh ITERATOR, or it may have a `__getitem__` method suitable for indexed lookup.     
 
 
