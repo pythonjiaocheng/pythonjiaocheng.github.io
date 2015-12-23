@@ -31,30 +31,30 @@ An ITERATOR is:
 - an object that is self-iterable (meaning that it has an `__iter__` method that returns self).     
 
 
-The builtin function next calls the __next__ (Python 3) or next (Python 2) method on the object passed to it.
+The builtin function `next` calls the `__next__` (Python 3) or `next` (Python 2) method on the object passed to it.    
 
 For example:
 
->>> s = 'cat'      # s is an ITERABLE
-                   # s is a str object that is immutable
-                   # s has no state
-                   # s has a __getitem__() method 
 
->>> t = iter(s)    # t is an ITERATOR
-                   # t has state (it starts by pointing at the "c"
-                   # t has a next() method and an __iter__() method
+	>>> s = 'cat'      # s is an ITERABLE
+        	           # s is a str object that is immutable
+                	   # s has no state
+                   	   # s has a __getitem__() method 
 
->>> next(t)        # the next() function returns the next value and advances the state
-'c'
->>> next(t)        # the next() function returns the next value and advances
-'a'
->>> next(t)        # the next() function returns the next value and advances
-'t'
->>> next(t)        # next() raises StopIteration to signal that iteration is complete
-Traceback (most recent call last):
-...
-StopIteration
+	>>> t = iter(s)    # t is an ITERATOR
+           		   # t has state (it starts by pointing at the "c"
+                   	   # t has a next() method and an __iter__() method
 
->>> iter(t) is t   # the iterator is self-iterable
+	>>> next(t)        # the next() function returns the next value and advances the state
+	'c'
+	>>> next(t)        # the next() function returns the next value and advances
+	'a'
+	>>> next(t)        # the next() function returns the next value and advances
+	't'
+	>>> next(t)        # next() raises StopIteration to signal that iteration is complete
+	Traceback (most recent call last):
+	...
+	StopIteration
 
-shareimprove this answer
+	>>> iter(t) is t   # the iterator is self-iterable
+
