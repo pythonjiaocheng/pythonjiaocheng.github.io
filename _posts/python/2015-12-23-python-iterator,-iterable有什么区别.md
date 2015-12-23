@@ -15,14 +15,14 @@ An ITERABLE is:
 - an object that defines `__iter__` that returns a fresh ITERATOR, or it may have a `__getitem__` method suitable for indexed lookup.     
 
 
-An ITERATOR is:   
+An ITERATOR is:      
 
-- an object with state that remembers where it is during iteration   
-- an object with a `__next__` method (Python 3; `next` before) that:   
+- an object with state that remembers where it is during iteration       
+- an object with a `__next__` method (Python 3; `next` before) that:      
     - returns the next value in the iteration   
-     - updates the state to point at the next value    
+     - updates the state to point at the next value      
      - signals when it is done by raising `StopIteration`   
-- an object that is self-iterable (meaning that it has an `__iter__` method that returns self).     
+- an object that is self-iterable (meaning that it has an `__iter__` method that returns self). (一个iterator有必要有这个方法吗？那它不就是iterable?最令人困惑的是一个iterator只能在for循环中使用一次。)            
 
 
 The builtin function `next` calls the `__next__` (Python 3) or `next` (Python 2) method on the object passed to it.    
