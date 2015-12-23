@@ -37,73 +37,73 @@ The code is quite simple and straightforward, but its builds the full list in me
 So, we resort to the generator pattern. The following implements generator as an iterable object.                             
 
 
-   1 # Using the generator pattern (an iterable)
-   2 class firstn(object):
-   3     def __init__(self, n):
-   4         self.n = n
-   5         self.num, self.nums = 0, []
-   6 
-   7     def __iter__(self):
-   8         return self
-   9 
-  10     # Python 3 compatibility
-  11     def __next__(self):
-  12         return self.next()
-  13 
-  14     def next(self):
-  15         if self.num < self.n:
-  16             cur, self.num = self.num, self.num+1
-  17             return cur
-  18         else:
-  19             raise StopIteration()
-  20 
-  21 sum_of_first_n = sum(firstn(1000000))
+	# Using the generator pattern (an iterable)
+	class firstn(object):
+	    def __init__(self, n):
+		self.n = n
+		self.num, self.nums = 0, []
 
-This will perform as we expect, but we have the following issues:
+	    def __iter__(self):
+		return self
 
-    there is a lot of boilerplate
-    the logic has to be expressed in a somewhat convoluted way 
+	    # Python 3 compatibility
+	    def __next__(self):
+		return self.next()
 
-Furthermore, this is a pattern that we will use over and over for many similar constructs. Imagine writing all that just to get an iterator.
+	    def next(self):
+		if self.num < self.n:
+		    cur, self.num = self.num, self.num + 1
+		    return cur
+		else:
+		    raise StopIteration()
 
-Python provides generator functions as a convenient shortcut to building iterators. Lets us rewrite the above iterator as a generator function:
 
-Toggle line numbers
+	sum_of_first_n = sum(firstn(1000000))
 
-   1 # a generator that yields items instead of returning a list
-   2 def firstn(n):
-   3     num = 0
-   4     while num < n:
-   5         yield num
-   6         num += 1
-   7 
-   8 sum_of_first_n = sum(firstn(1000000))
+This will perform as we expect, but we have the following issues:    
 
-Note that the expression of the number generation logic is clear and natural. It is very similar to the implementation that built a list in memory, but has the memory usage characteristic of the iterator implementation.
+- there is a lot of boilerplate   
+- the logic has to be expressed in a somewhat convoluted way     
 
-Note: the above code is perfectly acceptable for expository purposes, but remember that in Python 2 firstn() is equivalent to the built-in xrange() function, and in Python 3 range() is a generator. The built-ins will always be much faster. SH
+Furthermore, this is a pattern that we will use over and over for many similar constructs. Imagine writing all that just to get an iterator.      
+Python provides generator functions as a convenient shortcut to building iterators. Lets us rewrite the above iterator as a generator function:    
 
-Generator expressions provide an additional shortcut to build generators out of expressions similar to that of list comprehensions.
 
-In fact, we can turn a list comprehension into a generator expression by replacing the square brackets ("[ ]") with parentheses. Alternately, we can think of list comprehensions as generator expressions wrapped in a list constructor.
+	# a generator that yields items instead of returning a list
+	def firstn(n):
+	    num = 0
+	    while num < n:
+		yield num
+		num += 1
 
-Consider the following example:
+	sum_of_first_n = sum(firstn(1000000))
+	print(sum_of_first_n)
 
-Toggle line numbers
 
-   1 # list comprehension
-   2 doubles = [2 * n for n in range(50)]
-   3 
-   4 # same as the list comprehension above
-   5 doubles = list(2 * n for n in range(50))
+Note that the expression of the number generation logic is clear and natural. It is very similar to the implementation that built a list in memory, but has the memory usage characteristic of the iterator implementation.                                  
 
-Notice how a list comprehension looks essentially like a generator expression passed to a list constructor.
+Note: the above code is perfectly acceptable for expository purposes, but remember that in Python 2 `firstn()` is equivalent to the built-in `xrange()` function, and in Python 3 `range()` is a generator.（`range()`不是generator，是iterable） The built-ins will always be much faster. 
 
-By allowing generator expressions, we don't have to write a generator function if we do not need the list. If only list comprehensions were available, and we needed to lazily build a set of items to be processed, we will have to write a generator function.
+Generator expressions provide an additional shortcut to build generators out of expressions similar to that of list comprehensions.     
 
-This also means that we can use the same syntax we have been using for list comprehensions to build generators.
+In fact, we can turn a list comprehension into a generator expression by replacing the square brackets ("`[ ]`") with parentheses. Alternately, we can think of list comprehensions as generator expressions wrapped in a list constructor.                                          
 
-Keep in mind that generators are a special type of iterator, and that containers like list and set are also iterables. The uniform way in which all of these are handled, adds greatly to the simplification of code.
+Consider the following example:              
+
+	# list comprehension
+	doubles = [2 * n for n in range(50)]
+
+	# same as the list comprehension above
+	doubles = list(2 * n for n in range(50))
+
+
+Notice how a list comprehension looks essentially like a generator expression passed to a list constructor.    
+
+By allowing generator expressions, we don't have to write a generator function if we do not need the list. If only list comprehensions were available, and we needed to lazily build a set of items to be processed, we will have to write a generator function.                                                  
+
+This also means that we can use the same syntax we have been using for list comprehensions to build generators.   
+
+Keep in mind that generators are a special type of iterator, and that containers like `list` and `set` are also iterables. The uniform way in which all of these are handled, adds greatly to the simplification of code.                            
 
 Improved Performance
 
