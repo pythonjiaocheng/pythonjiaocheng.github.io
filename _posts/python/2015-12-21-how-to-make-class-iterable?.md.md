@@ -1,10 +1,10 @@
 ---
 layout: post
-title: "how to make class iterable?.md"
+title: "how to make class iterable?"
 category: python
 duoshuo: true
 mydate : 2015-12-21-02-02-16
-description: "how to make class iterable?.md"
+description: "how to make class iterable?"
 tags: [python]
 ---
 `Iterator` objects in python conform to the iterator protocol, which basically means they provide two methods: `__iter__()` and `next()`. The `__iter__` returns the iterator object and is implicitly called at the start of loops. The `next()` method returns the next value and is implicitly called at each loop increment. `next()` raises a `StopIteration` exception when there are no more value to return, which is implicitly captured by looping constructs to stop iterating.    
@@ -97,6 +97,36 @@ python3的版本:
 
 	for c in counter:
 	    print(c)
+
+我感觉我这个类改写得真好，但是实际上去不是这样的，因为这是一个`iterator`，而不是一个`iterable`,所以这样改写是错误的，如果你要改写，应该如下:   
+
+	class Counter:
+	    def __init__(self, low, high):
+		self.current = low
+		self.high = high
+
+	    def __iter__(self):
+		return self
+
+	    def __next__(self):
+		if self.current > self.high:
+		    raise StopIteration
+		else:
+		    self.current += 1
+		    return self.current - 1
+
+	class IterableCounter:
+	    def __iter__(self):
+		return Counter(3, 9)
+
+	for c in IterableCounter():
+	    print(c)
+
+	print('==========')
+
+	for c in IterableCounter():
+	    print(c)
+
 
 
 
