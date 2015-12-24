@@ -96,13 +96,13 @@ Python provides generator functions as a convenient shortcut to building iterato
 
 Note that the expression of the number generation logic is clear and natural. It is very similar to the implementation that built a list in memory, but has the memory usage characteristic of the iterator implementation.                                  
 
-	Note: the above code is perfectly acceptable for expository purposes, but remember that in Python 2 `firstn()` is equivalent to the built-in `xrange()` function, and in Python 3 `range()` is a generator.（`range()`不是generator，是iterable） The built-ins will always be much faster. 
+Note: the above code is perfectly acceptable for expository purposes, but remember that in Python 2 `firstn()` is equivalent to the built-in `xrange()` function, and in Python 3 `range()` is a generator.（`range()`不是generator，是iterable） The built-ins will always be much faster.   
 
-	Generator expressions provide an additional shortcut to build generators out of expressions similar to that of list comprehensions.     
+Generator expressions provide an additional shortcut to build generators out of expressions similar to that of list comprehensions.     
 
-	In fact, we can turn a list comprehension into a generator expression by replacing the square brackets ("`[ ]`") with parentheses. Alternately, we can think of list comprehensions as generator expressions wrapped in a list constructor.                                          
+In fact, we can turn a list comprehension into a generator expression by replacing the square brackets ("`[ ]`") with parentheses. Alternately, we can think of list comprehensions as generator expressions wrapped in a list constructor.                                          
 
-	Consider the following example:              
+Consider the following example:                 
 
 		# list comprehension
 		doubles = [2 * n for n in range(50)]
@@ -111,13 +111,13 @@ Note that the expression of the number generation logic is clear and natural. It
 		doubles = list(2 * n for n in range(50))
 
 
-	Notice how a list comprehension looks essentially like a generator expression passed to a list constructor.    
+Notice how a list comprehension looks essentially like a generator expression passed to a list constructor.    
 
-	By allowing generator expressions, we don't have to write a generator function if we do not need the list. If only list comprehensions were available, and we needed to lazily build a set of items to be processed, we will have to write a generator function.                                                  
+By allowing generator expressions, we don't have to write a generator function if we do not need the list. If only list comprehensions were available, and we needed to lazily build a set of items to be processed, we will have to write a generator function.                                                  
 
-	This also means that we can use the same syntax we have been using for list comprehensions to build generators.   
+This also means that we can use the same syntax we have been using for list comprehensions to build generators.   
 
-	Keep in mind that generators are a special type of iterator, and that containers like `list` and `set` are also iterables. The uniform way in which all of these are handled, adds greatly to the simplification of code.                            
+Keep in mind that **generators are a special type of iterator**, and that containers like `list` and `set` are also iterables. The uniform way in which all of these are handled, adds greatly to the simplification of code.                            
 
 	##Improved Performance
 
