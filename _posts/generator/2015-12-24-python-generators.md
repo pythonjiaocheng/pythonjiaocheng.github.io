@@ -138,139 +138,97 @@ Note: **a generator will provide performance benefits only if we do not intend t
 Consider the following example:    
 
 
-   1 # Note: Python 2.x only
-   2 s = sum(xrange(1000000))
-   3 p = product(xrange(1000000))
+	# Note: Python 2.x only
+	s = sum(xrange(1000000))
+	p = product(xrange(1000000))
 
-Imagine that making a integer is a very expensive process. In the above code, we just performed the same expensive process twice. In cases like this, building a list in memory might be worth it (see example below):
+Imagine that making a integer is a very expensive process. In the above code, we just performed the same expensive process twice. In cases like this, building a list in memory might be worth it (see example below):     
 
-Toggle line numbers
 
-   1 # Note: Python 2.x only
-   2 nums = list(xrange(1000000))
-   3 s = sum(nums)
-   4 p = product(nums)
+	# Note: Python 2.x only
+	nums = list(xrange(1000000))
+	s = sum(nums)
+	p = product(nums)
 
-However, a generator might still be the only way, if the storage of these generated objects in memory is not practical, and it might be worth to pay the price of duplicated expensive computations.
+However, a generator might still be the only way, if the storage of these generated objects in memory is not practical, and it might be worth to pay the price of duplicated expensive computations.                    
 
-Examples
+##Examples
 
-For example, the RangeGenerator can be used to iterate over a large number of values, without creating a massive list (like range would)
+For example, the `RangeGenerator` can be used to iterate over a large number of values, without creating a massive list (like `range` would)    
 
-Toggle line numbers
-
-   1 #the for loop will generate each i (i.e. 1,2,3,4,5, ...), add it to total,  and throw it away
-   2 #before the next i is generated.  This is opposed to iterating through range(...), which creates
-   3 #a potentially massive list and then iterates through it.
-   4 total = 0
-   5 for i in irange(1000000):
-   6    total += i
+	#the for loop will generate each i (i.e. 1,2,3,4,5, ...), add it to total,  and throw it away
+	#before the next i is generated.  This is opposed to iterating through range(...), which creates
+	#a potentially massive list and then iterates through it.
+	total = 0
+	for i in irange(1000000):
+	total += i
 
 Generators can be composed. Here we create a generator on the squares of consecutive integers.
 
-Toggle line numbers
 
-   1 #square is a generator
-   2 square = (i*i for i in irange(1000000))
-   3 #add the squares
-   4 total = 0
-   5 for i in square:
-   6    total += i
+	#square is a generator
+	square = (i*i for i in irange(1000000))
+	#add the squares
+	total = 0
+	for i in square:
+	    total += i
 
-Here, we compose a square generator with the takewhile generator, to generate squares less than 100
+Here, we compose a square generator with the `takewhile` generator, to generate squares less than 100                            
 
-Toggle line numbers
 
-   1 #add squares less than 100
-   2 square = (i*i for i in count())
-   3 bounded_squares = takewhile(lambda x : x< 100, square)
-   4 total = 0
-   5 for i in bounded_squares:
-   6    total += i
+	#add squares less than 100
+	square = (i*i for i in count())
+	bounded_squares = takewhile(lambda x : x< 100, square)
+	total = 0
+	for i in bounded_squares:
+   	total += i
 
-to be written: Generators made from classes?
+##Discussion
 
-Links
-
-    PEP-255: Simple Iterators -- the original
-
-    Iterators and Simple Generators
-
-    combinatorial functions in itertools
-
-    Python Generator Tricks -- various infinite sequences, recursions, ...
-
-    "weightless threads" -- simulating threads using generators
-
-    XML processing -- yes, using generators
-
-    C2:GeneratorsAreNotCoroutines -- particulars on generators, coroutines, and continuations
-
-    Generator tutorial -- How generators work in plain english 
-
-See also: Iterator
-
-Discussion
-
-I once saw MikeOrr demonstrate Before and After examples. But, I forget how they worked.
-
+I once saw MikeOrr demonstrate Before and After examples. But, I forget how they worked.                                  
 Can someone demonstrate here?
+He did something like: Show how a normal list operation could be written to use generators. Something like:    
 
-He did something like: Show how a normal list operation could be written to use generators. Something like:
+	def double(L):
+            return [x*2 for x in L]
+    
+        eggs = double([1, 2, 3, 4, 5])
 
-Toggle line numbers
+...he showed how that, or something like that, could be rewritten using iterators, generators.     
 
-   1 def double(L):
-   2     return [x*2 for x in L]
-   3 
-   4 eggs = double([1, 2, 3, 4, 5])
+It's been a while since I've seen it, I may be getting this all wrong.                         
 
-...he showed how that, or something like that, could be rewritten using iterators, generators.
 
-It's been a while since I've seen it, I may be getting this all wrong.
+	# explicitly write a generator function
+	def double(L):
+           for x in L:
+                yield x*2
+    
+	# eggs will be a generator
+	eggs = double([1, 2, 3, 4, 5])
 
--- LionKimbro 2005-04-02 19:12:19
+	# the above is equivalent to ("generator comprehension"?)
+	eggs = (x*2 for x in [1, 2, 3, 4, 5])
 
-Toggle line numbers
+	# need to do this if you need a list
+	eggs = list(double([1, 2, 3, 4, 5]))
 
-   1 # explicitly write a generator function
-   2 def double(L):
-   3     for x in L:
-   4         yield x*2
-   5 
-   6 # eggs will be a generator
-   7 eggs = double([1, 2, 3, 4, 5])
-   8 
-   9 # the above is equivalent to ("generator comprehension"?)
-  10 eggs = (x*2 for x in [1, 2, 3, 4, 5])
-  11 
-  12 # need to do this if you need a list
-  13 eggs = list(double([1, 2, 3, 4, 5]))
-  14 
-  15 # the above is equivalent to (list comprehension)
-  16 eggs = [x*2 for x in [1, 2, 3, 4, 5]]
+	# the above is equivalent to (list comprehension)
+	eggs = [x*2 for x in [1, 2, 3, 4, 5]]
 
-For the above example, a generator comprehension or list comprehension is sufficient unless you need to apply that in many places.
+For the above example, a generator comprehension or list comprehension is sufficient unless you need to apply that in many places.    
 
-Also, a generator function will be cleaner and more clear, if the generated expressions are more complex, involve multiple steps, or depend on additional temporary state.
+Also, a generator function will be cleaner and more clear, if the generated expressions are more complex, involve multiple steps, or depend on additional temporary state.    
 
-Consider the following example:
+Consider the following example:    
 
-Toggle line numbers
+	def unique(iterable, key=lambda x: x):
+            seen = set()
+            for elem, ekey in ((e, key(e)) for e in iterable):
+                if ekey not in seen:
+                    yield elem
+                    seen.add(ekey)
 
-   1 def unique(iterable, key=lambda x: x):
-   2     seen = set()
-   3     for elem, ekey in ((e, key(e)) for e in iterable):
-   4         if ekey not in seen:
-   5             yield elem
-   6             seen.add(ekey)
+Here, the temporary keys collector, `seen`, is a temporary storage that will just be more clutter in the location where this generator will be used.                  
 
-Here, the temporary keys collector, seen, is a temporary storage that will just be more clutter in the location where this generator will be used.
-
-Even if we were to use this only once, it is worth writing a function (for the sake of clarity; remember that Python allows nested functions).
-
-Generators (last edited 2015-08-26 17:36:40 by pythonguru)
-
-    MoinMoin PoweredPython PoweredGPL licensedValid HTML 4.01 
-
-Unable to edit the page? See the FrontPage for instructions.
+Even if we were to use this only once, it is worth writing a function (for the sake of clarity; remember that Python allows nested functions).                   
